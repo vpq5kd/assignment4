@@ -1,0 +1,22 @@
+1) 2_ackermann_next is being used as a control flow mechanism for the ackermann function. Instead of going through two base cases and then a recursion, in ackermann2.c the ackermann function uses the state of 2_ackermann_next in a case/switch statement to decide the appropriate course of action.
+
+2)The transformation being performed on subroutine one is called "add opaque."typically code has very distinct steps. If I define a function called add(int a, int b), you expect the body of that function to be something like return a+b; . However, add opaque inserts arbitrary steps in the control flow of a function that don't affect the outcome but make the code significantly harder to understand. Going back to my add() example, now the body would be something like return (recomb(a/2)+recomb(b/2)) where all recomb does is multiply its argument by 2. Nothing really happens, but now I've done bitwise operations, jumps, calls, and returns which create obfuscation that is insanely hard to reverse engineer.
+
+3)
+Here is my first option based on the control flow of tigress generated barfoo. 
+int barfoo_real(int x){ //y is never used
+	x = 20;
+	while (x!=4){
+		x--;
+	}
+	x-=2;
+	x+=5;
+	return x;
+}  
+
+However, since this function just always returns 7, one could also write the function:
+int return7(){
+	return 7;
+}
+
+and it would have the exact same outcome. X isn't even needed as a variable.
